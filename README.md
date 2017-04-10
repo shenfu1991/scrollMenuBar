@@ -1,8 +1,7 @@
 # scrollMenuBar
 A top scroll menu bar
 
-类似网易顶部分类滑条。  
-  
+类似网易顶部分类滑条。滚动到中间过一点右边时，自动调整位置。
   用法：
   
       ScrollMenuView *menuView = [[ScrollMenuView alloc]init];
