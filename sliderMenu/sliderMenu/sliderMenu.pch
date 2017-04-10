@@ -1,0 +1,16 @@
+//
+//  sliderMenu.pch
+//  sliderMenu
+//
+//  Created by 轩辕神赋 on 2017/4/10.
+//  Copyright © 2017年 轩辕神赋. All rights reserved.
+//
+
+#ifndef sliderMenu_pch
+#define sliderMenu_pch
+
+#define WIDTH [[UIScreen mainScreen]bounds].size.width
+#define HEIGHT [[UIScreen mainScreen]bounds].size.height
+
+
+#endif /* sliderMenu_pch */
