@@ -14,8 +14,24 @@ A top scroll menu bar
 
 ![image](https://raw.githubusercontent.com/mengzhihoing/scrollMenuBar/master/ss.png)
 
-对于项目比较少的，居中显示：   
+新样式：选中时的字体稍微大一点：
 
-![image](https://raw.githubusercontent.com/mengzhihoing/scrollMenuBar/master/short.png)
+    ScrollMenuView *menuView = [[ScrollMenuView alloc]init];
+    menuView.frame = CGRectMake(0, 64, WIDTH, 44);
+    menuView.delegate=self;
+    [self.view addSubview:menuView];
+    NSArray *items = @[@"精选",@"鞋子",@"上装",@"裤装",];
+    [menuView addItems:items titleColor:[UIColor grayColor] SelectedColor:[UIColor blackColor]];
+    
+    
+    ScrollMenuView *menuView1 = [[ScrollMenuView alloc]init];
+    menuView1.frame = CGRectMake(0, 230, WIDTH, 44);
+    menuView1.delegate=self;
+    [self.view addSubview:menuView1];
+    NSArray *items1 = @[@"精选",@"鞋子",@"上装",@"裤装",@"头条",@"配饰",@"视频",@"折扣",@"潮牌",@"促销"];
+    
+    [menuView1 addItems:items1 titleColor:[UIColor grayColor] SelectedColor:[UIColor blackColor]];
 
+
+![image](https://raw.githubusercontent.com/mengzhihoing/scrollMenuBar/master/new.png)
 
