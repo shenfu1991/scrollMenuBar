@@ -7,6 +7,8 @@
 //
 
 #import "ScrollMenuView.h"
+#define kWidth self.frame.size.width
+#define kHeight self.frame.size.height
 
 @interface ScrollMenuView ()
 
@@ -59,7 +61,7 @@
   if (!_scrollView) {
     _scrollView = [[UIScrollView alloc] init];
     [self addSubview:_scrollView];
-    _scrollView.frame = self.frame;
+    _scrollView.frame = CGRectMake(0, 0, kWidth, kHeight);
     _scrollView.showsHorizontalScrollIndicator = NO;
   }
 
@@ -70,7 +72,7 @@
   if (!_sliderBar) {
     _sliderBar = [UIView new];
     [self.scrollView addSubview:_sliderBar];
-    _sliderBar.backgroundColor = [UIColor redColor];
+    _sliderBar.backgroundColor = [UIColor blackColor];
   }
 
   return _sliderBar;
@@ -98,13 +100,16 @@
     [self.scrollView addSubview:item];
     [self.itemArray addObject:item];
     [item setTitle:title forState:UIControlStateNormal];
-    [item.titleLabel setFont:[UIFont systemFontOfSize:17]];
+    [item.titleLabel setFont:[UIFont systemFontOfSize:14]];
     [item setTitleColor:color forState:UIControlStateNormal];
     [item setTitleColor:selectedColor forState:UIControlStateSelected];
+      
 
     if (i == 0) {
       item.selected = YES;
       self.selectedButton = item;
+      [item.titleLabel setFont:[UIFont systemFontOfSize:17]];
+
     }
   }
 }
@@ -115,7 +120,10 @@
 - (void)click:(UIButton *)button {
 
   _selectedButton.selected = NO;
+    [_selectedButton.titleLabel setFont:[UIFont systemFontOfSize:14]];
   button.selected = YES;
+    [button.titleLabel setFont:[UIFont systemFontOfSize:17]];
+
   _selectedButton = button;
 
   [_scrollView bringSubviewToFront:_sliderBar];
@@ -126,8 +134,8 @@
   [UIView animateWithDuration:.25
                    animations:^{
                      [_sliderBar
-                         setFrame:CGRectMake(x, CGRectGetMaxY(button.frame) - 2,
-                                             button.frame.size.width, 2)];
+                         setFrame:CGRectMake(x, CGRectGetMaxY(button.frame) - 3,
+                                             button.frame.size.width, 3)];
                      [_sliderBar layoutIfNeeded];
                    }];
 
@@ -145,16 +153,14 @@
 
 - (void)adjustScrollView:(UIButton *)button {
 
-  CGFloat width = self.bounds.size.width;
-
   // 计算偏移量
-  CGFloat offsetX = button.center.x - width * 0.5;
+  CGFloat offsetX = button.center.x - kWidth * 0.5;
 
   if (offsetX < 0)
     offsetX = 0;
 
   // 获取最大滚动范围
-  CGFloat maxOffsetX = _scrollView.contentSize.width - width;
+  CGFloat maxOffsetX = _scrollView.contentSize.width - kWidth;
 
   if (offsetX > maxOffsetX)
     offsetX = maxOffsetX;
@@ -189,18 +195,21 @@
 
     if (button.selected) {
       self.sliderBar.frame =
-          CGRectMake(button.frame.origin.x, CGRectGetMaxY(button.frame) - 2,
-                     button.frame.size.width, 2);
+          CGRectMake(button.frame.origin.x, CGRectGetMaxY(button.frame) - 3,
+                     button.frame.size.width, 3);
     }
 
     if (i == _itemArray.count - 1) {
 
-      CGFloat screenWidth = self.bounds.size.width;
-      CGFloat offWidth = screenWidth - lastX;
+//      CGFloat kWidth = self.bounds.size.width;
+      CGFloat offWidth = kWidth - lastX;
       //            如果项目比较少时，居中显示
       if (offWidth > 50) {
         lastX = 0;
         _canScroll = NO;
+          
+          CGFloat paddingX = 20;
+          CGFloat padingItem = (kWidth-totalWidth-paddingX*2)/(_itemArray.count-1);
 
         for (int i = 0; i < _itemArray.count; i++) {
           UIButton *button = _itemArray[i];
@@ -208,23 +217,30 @@
           CGFloat width = [self getItemWidthWithTitle:button.currentTitle];
 
           CGFloat x = 0;
-          if (i == 0) {
-            x = (screenWidth - totalWidth -
-                 (_itemPadding * (_itemArray.count - 1))) /
-                2.0;
-
-          } else {
-            x = lastX + _itemPadding;
-          }
-
+//          if (i == 0) {
+//            x = (kWidth - totalWidth -
+//                 (_itemPadding * (_itemArray.count - 1))) /
+//                2.0;
+//
+//          } else {
+//            x = lastX + _itemPadding;
+//          }
+            
+            if (i == 0) {
+                x = paddingX;
+                
+            } else {
+                x = lastX + padingItem;
+            }
+            
           button.frame = CGRectMake(x, 0, width, 44);
 
           lastX = CGRectGetMaxX(button.frame);
 
           if (button.selected) {
             self.sliderBar.frame = CGRectMake(button.frame.origin.x,
-                                              CGRectGetMaxY(button.frame) - 2,
-                                              button.frame.size.width, 2);
+                                              CGRectGetMaxY(button.frame) - 3,
+                                              button.frame.size.width, 3);
           }
         }
       }
@@ -253,8 +269,6 @@
   NSDictionary *attributes =
       @{NSFontAttributeName : [UIFont systemFontOfSize:17]};
   width = [title sizeWithAttributes:attributes].width;
-
-  //  NSLog(@"width=%f", width);
 
   return width;
 }
