@@ -18,12 +18,20 @@
     [super viewDidLoad];
     
     ScrollMenuView *menuView = [[ScrollMenuView alloc]init];
-    menuView.frame = CGRectMake(0, 0, WIDTH, 44);
+    menuView.frame = CGRectMake(0, 64, WIDTH, 44);
     menuView.delegate=self;
     [self.view addSubview:menuView];
-    NSArray *items = @[@"头条",@"时尚榜",@"焦点新闻",@"军事报",@"明星",@"搞笑",@"百思不解",@"精品汇"];
+    NSArray *items = @[@"精选",@"鞋子",@"上装",@"裤装",];
+    [menuView addItems:items titleColor:[UIColor grayColor] SelectedColor:[UIColor blackColor]];
     
-    [menuView addItems:items titleColor:[UIColor whiteColor] SelectedColor:[UIColor redColor]];
+    
+    ScrollMenuView *menuView1 = [[ScrollMenuView alloc]init];
+    menuView1.frame = CGRectMake(0, 230, WIDTH, 44);
+    menuView1.delegate=self;
+    [self.view addSubview:menuView1];
+    NSArray *items1 = @[@"精选",@"鞋子",@"上装",@"裤装",@"头条",@"配饰",@"视频",@"折扣",@"潮牌",@"促销"];
+    [menuView1 addItems:items1 titleColor:[UIColor grayColor] SelectedColor:[UIColor blackColor]];
+
 
 }
 
